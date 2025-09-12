@@ -3,7 +3,14 @@
     "allow": [
       "Bash(python:*)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "mcp__github__create_repository",
+      "Bash(git commit:*)",
+      "Bash(npx:*)",
+      "Bash(npm install:*)",
+      "Bash(npm search mcp git)",
+      "Bash(git-mcp-server:*)",
+      "Bash(node:*)"
     ],
     "deny": [],
     "ask": []
