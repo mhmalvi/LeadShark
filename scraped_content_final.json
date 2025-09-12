@@ -1,0 +1,45 @@
+{
+  "https://www.linkedin.com/in/scierka": {
+    "title": "Blocked by anti-bot protection",
+    "description": "LinkedIn/platform blocked the scraping attempt",
+    "content": "Content not accessible due to anti-bot protection",
+    "status": "blocked",
+    "response_code": 999
+  },
+  "https://www.scierkalang.com": {
+    "title": "Advertising and Marketing Services",
+    "description": "Advertising and marketing services incorporating innovative strategies, agile execution and comprehensive analytics for stronger leads, increased engagement and higher conversion rates.",
+    "og_title": "Advertising and Marketing Services",
+    "og_type": "website",
+    "content": "Advertising and Marketing Services HomeServicesAboutClientsContactAdvertisingAmplifiedCall Us\"Amplified solutions - Because no one knows who you are... Yet\"What We DoWe create impactful & effective messaging delivered through an innovative mix of media to maximize results.LEARn MORE +Attract Your AudienceCaptivate your target market with the perfect message and media mix.Build Your BrandIncrease engagement with comprehensive, automated contact response and lead generation.Create ConversionsMeasure campaign impact and make real-time adjustments to maximize results.special offerFREE Marketing AnalysisWe'll review your current marketing program and offer tips on how to amplify your results.Sign UpMarketing StrategyPaid Media Design / Purchase / ManagementWebsite & Landing Page Design / ManagementCustomer Relationship Management (CRM)Search Engine Optimization (SEO)Social Media Content Creation / ManagementVIEW all ServicesGet FREEMarketing TipsSign up for our free monthly Marketing Tips Newsletter.Sign Upcontact us todayInnovative, agile and comprehensive marketing for stronger leads, increased engagement and higher conversion rates.Contact us!person_outlineperson_outlinedraftsil‍phone_iphoneedit‍chatt‍Thank you! Your submission has been received!Oops! Something went wrong while submitting the form.Rich Scierka started Scierka-Lang Media Solutions seven years ago. The agency has served as the marketing partner ...READ MORE +Main MenuHomeServicesAbout USPast ClientsContact Uscontact us35 Elm Street. Old Saybrook,Connecticut 06475860-906-8233rich@scierkalang.comOwner/Operator: Rich ScierkaSign Up For Our NewsletterSubscribeCopyright © 2025 scierkalang.com . All Right Reserved Privacy Policy | Terms & ConditionsXStruggling with Content?We're sharing our best performers and we'll customize them for you for FREE!Learn More",
+    "full_content_length": 1846,
+    "status": "success",
+    "response_code": 200,
+    "content_type": "text/html"
+  },
+  "https://www.linkedin.com/company/scierka-lang-media": {
+    "title": "Scierka-Lang Media Solutions  | LinkedIn",
+    "description": "Scierka-Lang Media Solutions  | 107 followers on LinkedIn. Marketing &amp; advertising services using traditional, digital and emerging media. | The innovative and seasoned team at Scierka-Lang Media Solutions brings you advertising within a well-designed marketing strategy to provide you with an edge and deliver results. We thrive on successfully connecting our clients with their audience. Our approach intertwines traditional, digital and emerging media platforms to provide you with a unique and effective strategy to meet your goals.",
+    "og_title": "Scierka-Lang Media Solutions  | LinkedIn",
+    "og_type": "article",
+    "twitter_title": "Scierka-Lang Media Solutions  | LinkedIn",
+    "content": "Scierka-Lang Media Solutions | LinkedIn Skip to main content LinkedIn Top Content People Learning Jobs Games Get the app Join now Sign in Scierka-Lang Media Solutions Advertising Services Old Saybrook, Connecticut 107 followers Marketing & advertising services using traditional, digital and emerging media. Follow View 1 employee Report this company About us The innovative and seasoned team at Scierka-Lang Media Solutions brings you advertising within a well-designed marketing strategy to provide you with an edge and deliver results. We thrive on successfully connecting our clients with their audience. Our approach intertwines traditional, digital and emerging media platforms to provide you with a unique and effective strategy to meet your goals. When you reach your goals, we reach ours. Website https://www.scierkalang.com/ External link for Scierka-Lang Media Solutions Industry Advertising Services Company size 2-10 employees Headquarters Old Saybrook, Connecticut Type Privately Held Founded 2014 Specialties Digital Media, Marketing, Advertising, Consultancy, Data Analytics, SEO, Web Design, Social Media, and Content Creation Locations Primary 251 Main Street Old Saybrook, Connecticut 06475, US Get directions Longboat Key, Florida 34228, US Get directions Employees at Scierka-Lang Media Solutions Rich Scierka Digital Marketer, AI Integrator, Keynote Speaker, Strategist, Data Lover See all employees Similar pages AI-Branding Academy Professional Training and Coaching Austin, TX Integrity Merchant Solutions Financial Services Glastonbury, CT Central Connecticut Coast YMCA Non-profit Organizations New Haven, CT LinkedIn © 2025 About Accessibility User Agreement Privacy Policy Cookie Policy Copyright Policy Brand Policy Guest Controls Community Guidelines العربية (Arabic) বাংলা (Bangla) Čeština (Czech) Dansk (Danish) Deutsch (German) Ελληνικά (Greek) English (English) Español (Spanish) فارسی (Persian) Suomi (Finnish) Français (French) हिंदी (Hindi) Magyar (Hungarian) Bahasa Indonesia (Indonesian) Italiano (Italian) עברית (Hebrew) 日本語 (Japanese) 한국어 (Korean) मराठी (Marathi) Bahasa Malaysia (Malay) Nederlands (Dutch) Norsk (Norwegian) ਪੰਜਾਬੀ (Punjabi) Polski (Polish) Português (Portuguese) Română (Romanian) Русский (Russian) Svenska (Swedish) తెలుగు (Telugu) ภาษาไทย (Thai) Tagalog (Tagalog) Türkçe (Turkish) Українська (Ukrainian) Tiếng Việt (Vietnamese) 简体中文 (Chinese (Simplified)) 正體中文 (Chinese (Traditional)) Language Agree & Join LinkedIn By clicking Continue to join or sign in, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy. Sign in to see who you already know at Scierka-Lang Media Solutions Sign in Welcome back Email or phone Password Show Forgot password? Sign in or By clicking Continue to join or sign in, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy. New to LinkedIn? Join now or New to LinkedIn? Join now By clicking Continue to join or sign in, you agree to LinkedIn’s User Agreement, Privacy Policy, and Cookie Policy. LinkedIn LinkedIn is better on the app Don’t have the app? Get it in the Microsoft Store. Open the app",
+    "full_content_length": 3129,
+    "status": "success",
+    "response_code": 200,
+    "content_type": "text/html; charset=utf-8"
+  },
+  "https://twitter.com/ScierkaLang": {
+    "title": "No title found",
+    "description": "No description found",
+    "content": "Something went wrong, but don’t fret — let’s give it another shot.Try again Some privacy related extensions may cause issues on x.com. Please disable them and try again.",
+    "full_content_length": 169,
+    "status": "success",
+    "response_code": 200,
+    "content_type": "text/html; charset=utf-8"
+  },
+  "https://www.facebook.com/ScierkaMedia": {
+    "error": "400 Client Error: Bad Request for url: https://www.facebook.com/ScierkaMedia",
+    "status": "failed"
+  }
+}
