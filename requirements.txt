@@ -1,0 +1,24 @@
+# Google Sheets Intelligence Pipeline Requirements
+
+# Google API packages
+google-auth==2.23.4
+google-auth-oauthlib==1.1.0
+google-auth-httplib2==0.1.1
+google-api-python-client==2.108.0
+
+# Web scraping packages
+requests==2.31.0
+beautifulsoup4==4.12.2
+urllib3==1.26.18
+
+# Data processing packages
+pandas==2.1.3
+python-dotenv==1.0.0
+
+# Optional: Enhanced features
+lxml==4.9.3
+html5lib==1.1
+
+# Development/Testing (optional)
+pytest==7.4.3
+pytest-cov==4.1.0
