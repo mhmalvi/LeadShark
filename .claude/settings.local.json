@@ -10,7 +10,9 @@
       "Bash(npm install:*)",
       "Bash(npm search mcp git)",
       "Bash(git-mcp-server:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(git branch:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "ask": []
