@@ -204,5 +204,3 @@ This tool is for processing publicly available information only. Users are respo
 ---
 
 **🦈 Built with predatory precision for lead enrichment dominance**
-
-*Generated with [Claude Code](https://claude.ai/code)*
