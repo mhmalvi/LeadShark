@@ -24,8 +24,8 @@ LeadShark automatically processes lead data row-by-row, scrapes prospect URLs, e
 
 ### 1. Installation
 ```bash
-git clone https://github.com/YOUR_USERNAME/leadshark.git
-cd leadshark
+git clone https://github.com/mhmalvi/cyberpunk-tests.git
+cd cyberpunk-tests
 pip install -r requirements.txt
 ```
 
@@ -185,7 +185,7 @@ For large datasets, the system can:
 
 ## 📞 Support
 
-- 🐛 **Issues:** [GitHub Issues](https://github.com/YOUR_USERNAME/leadshark/issues)
+- 🐛 **Issues:** [GitHub Issues](https://github.com/mhmalvi/cyberpunk-tests/issues)
 - 📖 **Documentation:** See `docs/` directory
 - 🔧 **Configuration Help:** Check `setup_guide.md`
 

@@ -72,7 +72,7 @@ async function testMcpServer() {
     
     console.log('\n🎯 MCP Configuration Recommendations:');
     console.log('   • Add Git MCP server to Claude Code settings');
-    console.log('   • Use workspace path: I:/CYBERPUNK/tests');
+    console.log('   • Use workspace path: E:/Aethon_draft/Enricher/cyberpunk-tests');
     console.log('   • Test with @git commands in Claude Code');
     console.log('   • See mcp-config.md for detailed setup instructions');
 }
