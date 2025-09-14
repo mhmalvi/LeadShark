@@ -114,12 +114,17 @@ class EnhancedScrapingPipeline:
     def get_request_delay(self, url: str) -> float:
         """Get appropriate delay for the platform"""
         domain = self.get_domain(url)
-        
+
         for platform, delay in self.request_delays.items():
             if platform in domain:
-                return delay
-        
-        return self.request_delays['default']
+                return delay * getattr(self, 'rate_multiplier', 1.0)
+
+        return self.request_delays['default'] * getattr(self, 'rate_multiplier', 1.0)
+
+    def apply_rate_multiplier(self, multiplier: float):
+        """Apply rate limiting multiplier for different profiles"""
+        self.rate_multiplier = multiplier
+        self.logger.info(f"Applied rate multiplier: {multiplier}x")
     
     def validate_url(self, url: str) -> bool:
         """Validate URL format"""
@@ -469,6 +474,61 @@ class EnhancedScrapingPipeline:
         
         return results
 
+    def scrape_url(self, url: str) -> Dict[str, Any]:
+        """
+        Simple scrape_url method for compatibility with compact enricher
+        """
+        result = self.scrape_url_with_retry(url)
+
+        # Add enhanced data if scraping was successful
+        if result.get('status') == 'success' and 'content' in result:
+            try:
+                soup = BeautifulSoup(result['content'], 'html.parser')
+
+                # Add enhanced data that compact enricher expects
+                result['emails'] = self._extract_emails_simple(soup)
+                result['phones'] = self._extract_phones_simple(soup)
+                result['social_links'] = self._extract_social_links_simple(soup)
+                result['title'] = result.get('metadata', {}).get('title', '')
+                result['meta_description'] = result.get('metadata', {}).get('description', '')
+
+            except Exception as e:
+                self.logger.warning(f"Enhanced data extraction failed: {e}")
+
+        return result
+
+    def _extract_emails_simple(self, soup: BeautifulSoup) -> List[str]:
+        """Simple email extraction"""
+        import re
+        text = soup.get_text()
+        pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        emails = re.findall(pattern, text)
+        return list(set(emails))[:10]
+
+    def _extract_phones_simple(self, soup: BeautifulSoup) -> List[str]:
+        """Simple phone extraction"""
+        import re
+        text = soup.get_text()
+        patterns = [
+            r'\b\d{3}[-.]?\d{3}[-.]?\d{4}\b',
+            r'\(\d{3}\)\s*\d{3}[-.]?\d{4}',
+        ]
+        phones = []
+        for pattern in patterns:
+            phones.extend(re.findall(pattern, text))
+        return list(set(phones))[:5]
+
+    def _extract_social_links_simple(self, soup: BeautifulSoup) -> List[str]:
+        """Simple social link extraction"""
+        social_domains = ['twitter.com', 'x.com', 'facebook.com', 'instagram.com',
+                         'linkedin.com', 'youtube.com']
+        links = []
+        for link in soup.find_all('a', href=True):
+            href = link['href']
+            if any(domain in href for domain in social_domains):
+                links.append(href)
+        return list(set(links))[:10]
+
 # Update the DataEnrichment class to use the enhanced scraping
 class DataEnrichment:
     """Enhanced data enrichment with improved scraping pipeline"""
@@ -601,19 +661,19 @@ class DataEnrichment:
         except Exception as e:
             return {'service': 'Google Search', 'status': 'error', 'error': str(e)}
 
+
 if __name__ == "__main__":
     # Test the enhanced scraping pipeline
     pipeline = EnhancedScrapingPipeline()
-    
+
     # Test URLs
     test_urls = {
-        'website': 'https://www.scierkalang.com',
-        'linkedin': 'https://www.linkedin.com/company/scierka-lang-media'
+        'website': 'https://www.example.com',
     }
-    
+
     print("Testing Enhanced Scraping Pipeline...")
     results = pipeline.scrape_multiple_urls(test_urls)
-    
+
     for url_type, result in results.items():
         print(f"\\n{url_type.upper()}:")
         print(f"Status: {result['status']}")

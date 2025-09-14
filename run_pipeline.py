@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-Google Sheets Intelligence Pipeline - Main Execution Script
+🦈 LeadShark - Predatory Lead Enrichment System
 
-Usage:
-    python run_pipeline.py --test          # Test with first 5 rows
-    python run_pipeline.py --all           # Process all rows
-    python run_pipeline.py --rows 50       # Process first 50 rows
-    python run_pipeline.py --start 10      # Start from row 10
+Features:
+- Interactive Google OAuth sign-in with scope verification
+- Smart lead sheet selection with worksheet picker
+- Real-time hunt progress tracking with rich UX
+- Non-destructive lead enrichment and intelligence gathering
+- Comprehensive error handling and recovery for maximum efficiency
 """
 
 import os
@@ -16,219 +17,343 @@ import argparse
 import time
 from datetime import datetime
 from pathlib import Path
+from typing import Optional, Dict, Any
 
 # Add current directory to path
 sys.path.append(str(Path(__file__).parent))
 
 try:
-    from google_sheets_processor import GoogleSheetsIntelligenceProcessor
-    from enhanced_scraping_pipeline import DataEnrichment
+    from cli_interface import CLIInterface, install_rich_hint
+    from google_sheets_auth import (
+        authenticate_google_sheets,
+        parse_sheet_id_from_url,
+        get_sheet_metadata,
+        preview_sheet_data,
+        validate_sheet_access
+    )
+    from non_destructive_enricher import NonDestructiveEnricher
+    from compact_enricher import CompactEnricher
+    from enhanced_scraping_pipeline import EnhancedScrapingPipeline
+    from data_enrichment import DataEnrichment
 except ImportError as e:
-    print(f"Import error: {e}")
+    print(f"❌ Import error: {e}")
     print("Make sure all required files are in the current directory")
     sys.exit(1)
 
 def load_config():
     """Load configuration from environment or defaults"""
-    config = {
-        'credentials_path': os.getenv('GOOGLE_SHEETS_CREDENTIALS_PATH', './credentials.json'),
-        'sheet_id': os.getenv('GOOGLE_SHEET_ID', ''),
+    return {
         'max_rows_per_batch': int(os.getenv('MAX_ROWS_PER_BATCH', '50')),
-        'start_row': int(os.getenv('START_ROW', '2')),
-        'processing_delay': float(os.getenv('PROCESSING_DELAY', '2.0'))
+        'processing_delay': float(os.getenv('PROCESSING_DELAY', '2.0')),
+        'log_level': os.getenv('LOG_LEVEL', 'INFO'),
+        'rate_profile_multiplier': {
+            'default': 1.0,
+            'slow': 2.5
+        }
     }
-    
-    return config
 
-def validate_config(config):
-    """Validate configuration settings"""
-    errors = []
-    
-    if not config['sheet_id']:
-        errors.append("GOOGLE_SHEET_ID not set")
-    
-    if not os.path.exists(config['credentials_path']):
-        errors.append(f"Credentials file not found: {config['credentials_path']}")
-    
-    if errors:
-        print("Configuration errors:")
-        for error in errors:
-            print(f"  - {error}")
-        return False
-    
-    return True
+def interactive_sheet_selection(cli: CLIInterface, sheets_service, drive_service) -> Optional[Dict]:
+    """Interactive sheet selection flow"""
+    while True:
+        # Get sheet input from user
+        sheet_input = cli.prompt_sheet_input()
+        if not sheet_input:
+            cli.print_error("Sheet input is required")
+            continue
 
-def print_banner():
-    """Print application banner"""
-    banner = """
-╔══════════════════════════════════════════════════════════════╗
-║           Google Sheets Intelligence Pipeline               ║
-║                                                              ║
-║  Automated web scraping and API enrichment system           ║
-║  for comprehensive business intelligence reports             ║
-╚══════════════════════════════════════════════════════════════╝
-    """
-    print(banner)
+        # Parse sheet ID
+        sheet_id = parse_sheet_id_from_url(sheet_input)
+        if not sheet_id:
+            cli.print_error("Invalid Google Sheet URL or ID")
+            continue
 
-def print_processing_summary(results):
-    """Print processing results summary"""
-    print("\\n" + "="*60)
-    print("PROCESSING SUMMARY")
-    print("="*60)
-    
-    if results['status'] == 'completed':
-        print(f"✅ Processing completed successfully")
-        print(f"📊 Total rows: {results['total_rows']}")
-        print(f"✅ Successful: {results['successful_rows']}")
-        print(f"❌ Failed: {results['failed_rows']}")
-        print(f"⏱️  Processing time: {results['processing_time']:.1f} seconds")
-        print(f"📈 Average per row: {results['average_time_per_row']:.1f} seconds")
-        
-        if results.get('api_calls'):
-            api_stats = results['api_calls']
-            print(f"🔗 API calls: {api_stats['total']} (Success: {api_stats['successful']})")
-        
-        print(f"\\n💡 Success rate: {(results['successful_rows']/results['total_rows']*100):.1f}%")
-        
+        cli.print_info(f"Validating sheet access...")
+
+        # Validate access and get metadata
+        valid, metadata = validate_sheet_access(sheets_service, drive_service, sheet_id)
+        if not valid:
+            cli.print_error("Cannot access sheet. Please check permissions and try again.")
+            continue
+
+        cli.print_success(f"🦈 LeadShark connected to hunting ground: {metadata['title']}")
+
+        # Select worksheet
+        sheet_name = cli.select_worksheet(metadata)
+        if not sheet_name:
+            continue
+
+        # Get preview
+        cli.print_info("Loading sheet preview...")
+        preview_data = preview_sheet_data(sheets_service, sheet_id, sheet_name)
+        if not preview_data:
+            cli.print_error("Cannot load sheet preview")
+            continue
+
+        # Show preview and get confirmation
+        if cli.show_sheet_preview(preview_data):
+            return {
+                'sheet_id': sheet_id,
+                'sheet_name': sheet_name,
+                'metadata': metadata,
+                'preview': preview_data
+            }
+        else:
+            cli.print_info("Sheet selection cancelled. Please choose another sheet.")
+
+def process_with_live_progress(enricher: NonDestructiveEnricher, cli: CLIInterface,
+                              sheet_info: Dict, options: Dict) -> Dict[str, Any]:
+    """Process sheet with live progress display"""
+    sheet_id = sheet_info['sheet_id']
+    sheet_name = sheet_info['sheet_name']
+    total_rows = sheet_info['preview']['total_rows']
+    dry_run = options.get('dry_run', False)
+
+    # Determine actual rows to process
+    if options.get('all_rows'):
+        max_rows = None
+        rows_to_process = total_rows
     else:
-        print(f"❌ Processing failed: {results.get('error', 'Unknown error')}")
+        max_rows = options.get('max_rows', 5)
+        rows_to_process = min(max_rows, total_rows)
+
+    # Create progress display
+    mode = f"{rows_to_process} rows" if max_rows else "all rows"
+    progress = cli.create_progress_display(rows_to_process, mode, sheet_name, dry_run)
+
+    stats = {
+        'rows_attempted': 0,
+        'rows_updated': 0,
+        'ok': 0,
+        'partial': 0,
+        'failed': 0,
+        'skipped': 0,
+        'errors': [],
+        'start_time': time.time()
+    }
+
+    try:
+        with progress:
+            # Setup enricher for progress tracking
+            enricher.cli = cli  # Inject CLI for progress updates
+
+            # Process the sheet
+            result_stats = enricher.process_sheet(max_rows=max_rows)
+
+            # Merge stats
+            stats.update(result_stats)
+
+    except KeyboardInterrupt:
+        cli.print_warning("Processing interrupted by user")
+        stats['errors'].append("User interruption")
+    except Exception as e:
+        cli.print_error(f"Processing failed: {e}")
+        stats['errors'].append(str(e))
+
+    stats['elapsed_time'] = time.time() - stats['start_time']
+    return stats
 
 def main():
-    """Main execution function"""
-    print_banner()
-    
-    # Parse command line arguments
-    parser = argparse.ArgumentParser(description='Google Sheets Intelligence Pipeline')
+    """Main execution function with interactive flow"""
+    # Initialize CLI interface
+    cli = CLIInterface()
+
+    # Check if rich is available
+    try:
+        import rich
+    except ImportError:
+        install_rich_hint()
+
+    # Show banner
+    cli.print_banner()
+
+    # Parse command line arguments (for override options)
+    parser = argparse.ArgumentParser(
+        description='🦈 LeadShark - Predatory Lead Enrichment System',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python run_pipeline.py                          # Interactive mode
+  python run_pipeline.py --sheet SHEET_ID --test  # Quick test run
+  python run_pipeline.py --dry-run               # Preview mode
+  python run_pipeline.py --sheet SHEET_ID --all  # Process all rows
+        """
+    )
+
+    parser.add_argument('--sheet', help='Google Sheet ID or URL (skips interactive selection)')
+    parser.add_argument('--tab', help='Specific worksheet name (skips tab selection)')
     parser.add_argument('--test', action='store_true', help='Test mode - process first 5 rows')
     parser.add_argument('--all', action='store_true', help='Process all rows')
     parser.add_argument('--rows', type=int, help='Number of rows to process')
-    parser.add_argument('--start', type=int, help='Starting row number (default: 2)')
-    parser.add_argument('--config', help='Path to configuration file')
-    parser.add_argument('--credentials', help='Path to Google credentials JSON file')
-    parser.add_argument('--sheet-id', help='Google Sheets ID')
-    parser.add_argument('--dry-run', action='store_true', help='Preview what would be processed without making changes')
-    
+    parser.add_argument('--start', type=int, help='Start from row number', default=2)
+    parser.add_argument('--dry-run', action='store_true', help='Preview mode - no actual writes')
+    parser.add_argument('--rate-profile', choices=['default', 'slow'], default='default',
+                       help='Rate limiting profile')
+    parser.add_argument('--force-auth', action='store_true', help='Force re-authentication')
+
     args = parser.parse_args()
-    
-    # Load configuration
-    config = load_config()
-    
-    # Override with command line arguments
-    if args.credentials:
-        config['credentials_path'] = args.credentials
-    if args.sheet_id:
-        config['sheet_id'] = args.sheet_id
-    if args.start:
-        config['start_row'] = args.start
-    
-    # Validate configuration
-    if not validate_config(config):
-        print("\\n❌ Configuration validation failed. Please fix the errors and try again.")
-        return 1
-    
-    print(f"📋 Configuration:")
-    print(f"   Credentials: {config['credentials_path']}")
-    print(f"   Sheet ID: {config['sheet_id'][:20]}...")
-    print(f"   Start Row: {config['start_row']}")
-    
-    # Determine processing parameters
-    max_rows = None
-    start_row = config['start_row']
-    
-    if args.test:
-        max_rows = 5
-        print(f"\\n🧪 Test Mode: Processing first {max_rows} rows")
-    elif args.rows:
-        max_rows = args.rows
-        print(f"\\n📊 Processing {max_rows} rows starting from row {start_row}")
-    elif args.all:
-        print(f"\\n🚀 Processing ALL rows starting from row {start_row}")
-    else:
-        # Default to test mode
-        max_rows = 5
-        print(f"\\n🧪 Default Test Mode: Processing first {max_rows} rows")
-        print("   Use --all to process all rows, or --rows N to specify count")
-    
-    if args.dry_run:
-        print("\\n👀 DRY RUN MODE: No changes will be made to the Google Sheet")
-    
-    # Initialize processor
-    print("\\n🔧 Initializing processor...")
-    processor = GoogleSheetsIntelligenceProcessor(
-        credentials_path=config['credentials_path'],
-        sheet_id=config['sheet_id']
-    )
-    
-    # Authenticate
-    print("🔑 Authenticating with Google Sheets API...")
-    if not processor.authenticate():
-        print("❌ Authentication failed. Please check your credentials.")
-        return 1
-    
-    print("✅ Authentication successful!")
-    
-    # Dry run - just read and preview
-    if args.dry_run:
-        print("\\n👀 Dry run - Reading sheet data...")
-        sheet_data = processor.read_sheet_data()
-        if sheet_data:
-            headers = sheet_data[0]
-            data_rows = sheet_data[1:]
-            print(f"   Found {len(data_rows)} data rows")
-            print(f"   Columns: {len(headers)}")
-            
-            # Preview first few rows
-            preview_rows = min(5, len(data_rows))
-            print(f"\\n   Preview of first {preview_rows} rows:")
-            for i, row in enumerate(data_rows[:preview_rows], start=2):
-                name = row[headers.index('name')] if 'name' in headers else 'Unknown'
-                org = row[headers.index('organization_name')] if 'organization_name' in headers else 'Unknown'
-                print(f"     Row {i}: {name} - {org}")
-        
-        print("\\n✅ Dry run completed. Use --all or --rows to process data.")
-        return 0
-    
-    # Confirm processing
-    if not args.test:
-        confirm = input(f"\\n⚠️  About to process data. Continue? (y/N): ")
-        if confirm.lower() != 'y':
-            print("Processing cancelled.")
-            return 0
-    
-    # Start processing
-    print(f"\\n🚀 Starting processing at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print("   Progress will be logged to 'sheets_processing.log'")
-    
-    start_time = time.time()
-    
+
     try:
-        # Process the sheet
-        results = processor.process_sheet(start_row=start_row, max_rows=max_rows)
-        
-        # Print results
-        processing_time = time.time() - start_time
-        results['processing_time'] = processing_time
-        
-        print_processing_summary(results)
-        
-        # Save results to file
-        results_file = f"processing_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(results_file, 'w', encoding='utf-8') as f:
-            json.dump(results, f, indent=2, ensure_ascii=False)
-        
-        print(f"\\n📁 Results saved to: {results_file}")
-        
-        return 0 if results['status'] == 'completed' else 1
-        
+        # Step 1: Google OAuth Authentication
+        cli.print_info("[*] Connecting to Google...")
+
+        auth_result = authenticate_google_sheets(
+            force_consent=args.force_auth,
+            show_progress=True
+        )
+
+        if not auth_result:
+            cli.print_error("Google authentication failed")
+            return 1
+
+        sheets_service, drive_service, creds = auth_result
+        cli.print_success("Google services connected successfully")
+
+        # Step 2: Sheet Selection
+        if args.sheet:
+            # Non-interactive mode with provided sheet
+            sheet_id = parse_sheet_id_from_url(args.sheet)
+            if not sheet_id:
+                cli.print_error("Invalid sheet ID or URL provided")
+                return 1
+
+            cli.print_info(f"Validating provided sheet...")
+            valid, metadata = validate_sheet_access(sheets_service, drive_service, sheet_id)
+            if not valid:
+                return 1
+
+            # Select worksheet
+            if args.tab:
+                # Use provided tab name
+                sheet_name = args.tab
+                # Validate tab exists
+                tab_exists = any(sheet['title'] == args.tab for sheet in metadata['sheets'])
+                if not tab_exists:
+                    cli.print_error(f"Worksheet '{args.tab}' not found in sheet")
+                    available_tabs = [sheet['title'] for sheet in metadata['sheets']]
+                    cli.print_info(f"Available worksheets: {', '.join(available_tabs)}")
+                    return 1
+            else:
+                # Use first sheet
+                sheet_name = metadata['sheets'][0]['title'] if metadata['sheets'] else 'Sheet1'
+
+            # Get preview
+            preview_data = preview_sheet_data(sheets_service, sheet_id, sheet_name)
+            if not preview_data:
+                cli.print_error("Cannot load sheet preview")
+                return 1
+
+            sheet_info = {
+                'sheet_id': sheet_id,
+                'sheet_name': sheet_name,
+                'metadata': metadata,
+                'preview': preview_data
+            }
+        else:
+            # Interactive sheet selection
+            sheet_info = interactive_sheet_selection(cli, sheets_service, drive_service)
+            if not sheet_info:
+                cli.print_info("No sheet selected. Exiting.")
+                return 0
+
+        # Step 3: Processing Options
+        if any([args.test, args.all, args.rows, args.dry_run]):
+            # Use command line options
+            options = {
+                'dry_run': args.dry_run,
+                'all_rows': args.all,
+                'start_row': args.start,
+                'rate_profile': args.rate_profile
+            }
+
+            if args.test:
+                options['max_rows'] = 5
+            elif args.rows:
+                options['max_rows'] = args.rows
+            elif not args.all:
+                options['max_rows'] = 5  # Default
+        else:
+            # Interactive mode selection
+            options = cli.prompt_processing_mode()
+            options['start_row'] = args.start
+            options['rate_profile'] = args.rate_profile
+
+        # Step 4: Choose Enrichment Strategy
+        cli.print_info("[~] Analyzing sheet capacity...")
+
+        # Check column count to determine enrichment strategy
+        total_columns = len(sheet_info['preview']['headers'])
+        available_space = 60 - total_columns  # Conservative Google Sheets lead capacity limit
+
+        use_compact = False
+        if available_space < 20:  # Need 22+ columns for full enrichment
+            cli.print_warning(f"Sheet has {total_columns} columns. Using compact enrichment (5 columns).")
+            use_compact = True
+        else:
+            cli.print_info(f"Sheet has {total_columns} columns. Using full enrichment.")
+
+        # Initialize appropriate enricher
+        cli.print_info("[>] Initializing enrichment engine...")
+
+        if use_compact:
+            enricher = CompactEnricher(
+                sheet_id=sheet_info['sheet_id'],
+                dry_run=options.get('dry_run', False)
+            )
+        else:
+            enricher = NonDestructiveEnricher(
+                sheet_id=sheet_info['sheet_id'],
+                dry_run=options.get('dry_run', False)
+            )
+
+        # Authenticate enricher (reuse existing services)
+        enricher.service = sheets_service
+        enricher.drive_service = drive_service
+
+        # Apply rate profile
+        config = load_config()
+        rate_multiplier = config['rate_profile_multiplier'].get(options['rate_profile'], 1.0)
+        enricher.scraper.apply_rate_multiplier(rate_multiplier)
+
+        # Step 5: Process with Live Progress
+        cli.print_info(f"[~] Processing {sheet_info['sheet_name']}...")
+
+        stats = process_with_live_progress(enricher, cli, sheet_info, options)
+
+        # Step 6: Show Final Summary
+        cli.show_final_summary(stats, stats['elapsed_time'])
+
+        # Save processing log
+        log_file = f"sheets_processing_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        with open(log_file, 'w') as f:
+            json.dump({
+                'timestamp': datetime.now().isoformat(),
+                'sheet_info': {
+                    'id': sheet_info['sheet_id'],
+                    'name': sheet_info['sheet_name'],
+                    'title': sheet_info['metadata']['title']
+                },
+                'options': options,
+                'stats': stats
+            }, f, indent=2)
+
+        if options.get('dry_run'):
+            cli.print_info("[~] Dry run completed - no changes were made to your sheet")
+            cli.print_info("Remove --dry-run flag to apply changes")
+        else:
+            cli.print_success(f"✅ Enrichment completed!")
+            cli.print_info(f"📊 View your sheet: {sheet_info['metadata']['url']}")
+
+        return 0 if stats['rows_updated'] > 0 or options.get('dry_run') else 1
+
     except KeyboardInterrupt:
-        print("\\n\\n⚠️ Processing interrupted by user")
-        print("   Progress has been saved to Google Sheets")
-        print("   You can resume by running the script again")
+        cli.print_warning("Process interrupted by user")
         return 1
-    
     except Exception as e:
-        print(f"\\n❌ Unexpected error: {str(e)}")
+        cli.print_error(f"Unexpected error: {e}")
+        import traceback
+        traceback.print_exc()
         return 1
+
 
 if __name__ == "__main__":
     sys.exit(main())
