@@ -25,7 +25,7 @@ I've installed two Git MCP servers for you:
       "command": "npx",
       "args": ["@cyanheads/git-mcp-server"],
       "env": {
-        "GIT_MCP_WORKSPACE": "I:/CYBERPUNK/tests"
+        "GIT_MCP_WORKSPACE": "E:/Aethon_draft/Enricher/cyberpunk-tests"
       }
     }
   }
@@ -43,14 +43,14 @@ Create or update your MCP configuration file (usually `~/.config/claude/mcp_serv
       "command": "npx",
       "args": ["@cyanheads/git-mcp-server"],
       "env": {
-        "GIT_MCP_WORKSPACE": "I:/CYBERPUNK/tests"
+        "GIT_MCP_WORKSPACE": "E:/Aethon_draft/Enricher/cyberpunk-tests"
       }
     },
     "git-basic": {
       "command": "npx", 
       "args": ["mcp-git"],
       "env": {
-        "GIT_REPO_PATH": "I:/CYBERPUNK/tests"
+        "GIT_REPO_PATH": "E:/Aethon_draft/Enricher/cyberpunk-tests"
       }
     }
   }
@@ -121,7 +121,7 @@ npx @cyanheads/git-mcp-server --help
 ```
 
 **3. Path issues**
-- Make sure the workspace path is correct: `I:/CYBERPUNK/tests`
+- Make sure the workspace path is correct: `E:/Aethon_draft/Enricher/cyberpunk-tests`
 - Verify the git repository exists in that path
 
 ### Re-installation if needed:
@@ -133,7 +133,7 @@ npm install -g @cyanheads/git-mcp-server mcp-git
 ## 📊 Current Repository Status
 
 Your current repository is ready:
-- **Location:** `I:/CYBERPUNK/tests`
+- **Location:** `E:/Aethon_draft/Enricher/cyberpunk-tests`
 - **Branch:** `master`  
 - **Status:** Clean working tree
 - **Files:** 21 committed files
