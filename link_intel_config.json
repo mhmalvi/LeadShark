@@ -1,0 +1,18 @@
+{
+  "SHEET_ID": "1l5aAzy5bhilmB3XfEBUbnL6Le8z1t0hFlmzLA5Gwq50",
+  "TAB_NAME": "Sheet1",
+  "ROW_SCOPE": "2:100",
+  "DAILY_LINK_LIMIT": 500,
+  "MAX_LINKS_PER_ROW": 10,
+  "SEARCH_ENGINE": "Google",
+  "SCRAPE_DEPTH": "light",
+  "ARP_MODE": "on",
+  "USER_AGENT_ID": "LinkIntelBot/1.0",
+  "ROBOTS_RESPECT": true,
+  "DELAY_RANDOMIZATION_MS": [800, 2500],
+  "RETRY_POLICY": {
+    "attempts": 3,
+    "backoff": [2, 4, 8]
+  },
+  "FORCE_REFRESH": false
+}
