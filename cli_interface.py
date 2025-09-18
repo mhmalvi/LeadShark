@@ -64,7 +64,7 @@ class CLIInterface:
         """Display application banner"""
         if self.use_rich:
             banner = Panel.fit(
-                "[bold red]🦈 LeadShark - Predatory Lead Enrichment[/bold red]\n"
+                "[bold red]>> LeadShark - Predatory Lead Enrichment <<[/bold red]\n"
                 "[dim]Interactive • Non-Destructive • Real-Time Hunt Progress[/dim]\n\n"
                 "+ [green]Append-only lead enrichment[/green] preserves all original prospect data\n"
                 "* [blue]OAuth2 authentication[/blue] with scope verification\n"
@@ -76,7 +76,7 @@ class CLIInterface:
             self.console.print(banner)
         else:
             print("="*70)
-            print("    🦈 LeadShark - Predatory Lead Enrichment")
+            print("    >> LeadShark - Predatory Lead Enrichment <<")
             print("    Interactive • Non-Destructive • Real-Time Hunt Progress")
             print("="*70)
 
@@ -241,7 +241,7 @@ class CLIInterface:
     def prompt_processing_mode(self) -> Dict[str, Any]:
         """Prompt user for processing mode and parameters"""
         if self.use_rich:
-            self.console.print("\n[bold cyan]⚙️  Processing Options[/bold cyan]")
+            self.console.print("\n[bold cyan][+] Processing Options[/bold cyan]")
 
             # Mode selection
             mode_table = Table(box=box.SIMPLE)
@@ -284,7 +284,7 @@ class CLIInterface:
 
             return options
         else:
-            print("\n⚙️  Processing Options:")
+            print("\n[+] Processing Options:")
             print("1. Test run (first 5 rows)")
             print("2. Custom row count")
             print("3. Process all rows")
@@ -358,11 +358,11 @@ class CLIInterface:
 
             # Status emoji mapping
             status_emoji = {
-                'processing': '🔄',
+                'processing': '[~]',
                 'ok': '[OK]',
                 'partial': '[!]',
                 'failed': '[X]',
-                'skipped': '⏭️'
+                'skipped': '[>]'
             }
 
             emoji = status_emoji.get(status.lower(), '•')
@@ -401,9 +401,9 @@ class CLIInterface:
                 summary_table.add_row("[OK] Successful", str(stats.get('ok', 0)), f"{stats.get('ok', 0)/total*100:.1f}%")
                 summary_table.add_row("[!] Partial", str(stats.get('partial', 0)), f"{stats.get('partial', 0)/total*100:.1f}%")
                 summary_table.add_row("[X] Failed", str(stats.get('failed', 0)), f"{stats.get('failed', 0)/total*100:.1f}%")
-                summary_table.add_row("⏭️  Skipped", str(stats.get('skipped', 0)), f"{stats.get('skipped', 0)/total*100:.1f}%")
+                summary_table.add_row("[>] Skipped", str(stats.get('skipped', 0)), f"{stats.get('skipped', 0)/total*100:.1f}%")
                 summary_table.add_row("", "", "")
-                summary_table.add_row("🎯 Total", str(total), "100.0%")
+                summary_table.add_row("[-] Total", str(total), "100.0%")
 
             self.console.print(summary_table)
 
@@ -424,9 +424,9 @@ class CLIInterface:
             print(f"[OK] Successful: {stats.get('ok', 0)}")
             print(f"[!] Partial: {stats.get('partial', 0)}")
             print(f"[X] Failed: {stats.get('failed', 0)}")
-            print(f"⏭️  Skipped: {stats.get('skipped', 0)}")
-            print(f"🎯 Total: {total}")
-            print(f"⚡ Time: {elapsed_time:.1f}s ({elapsed_time/total:.2f}s per row)" if total > 0 else "")
+            print(f"[>] Skipped: {stats.get('skipped', 0)}")
+            print(f"[-] Total: {total}")
+            print(f"[T] Time: {elapsed_time:.1f}s ({elapsed_time/total:.2f}s per row)" if total > 0 else "")
 
     def start_progress(self):
         """Start the progress display"""

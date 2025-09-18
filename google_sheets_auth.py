@@ -49,6 +49,33 @@ def authenticate_google_sheets(force_consent: bool = False, show_progress: bool 
     if not os.path.exists('credentials.json'):
         create_credentials_file()
 
+    # Check if credentials file has valid values
+    try:
+        with open('credentials.json', 'r') as f:
+            cred_data = json.load(f)
+            client_id = cred_data.get('installed', {}).get('client_id', '')
+            client_secret = cred_data.get('installed', {}).get('client_secret', '')
+
+            if client_id == 'your_client_id_here' or client_secret == 'your_client_secret_here':
+                if show_progress:
+                    print("\n[!] Google API credentials not configured!")
+                    print("\nTo set up Google Sheets API:")
+                    print("1. Go to: https://console.cloud.google.com/")
+                    print("2. Create a new project or select existing one")
+                    print("3. Enable Google Sheets API and Google Drive API")
+                    print("4. Go to 'Credentials' -> 'Create Credentials' -> 'OAuth 2.0 Client IDs'")
+                    print("5. Choose 'Desktop application'")
+                    print("6. Download the credentials.json file")
+                    print("7. Replace the current credentials.json file with the downloaded one")
+                    print("\nAlternatively, edit credentials.json and replace:")
+                    print(f"   'your_client_id_here' with your actual client ID")
+                    print(f"   'your_client_secret_here' with your actual client secret")
+                return None
+    except Exception as e:
+        if show_progress:
+            print(f"Error reading credentials file: {e}")
+        return None
+
     # Load existing credentials if available
     if os.path.exists('token.json') and not force_consent:
         try:
@@ -99,7 +126,7 @@ def authenticate_google_sheets(force_consent: bool = False, show_progress: bool 
 
                 # Use local server for better UX
                 creds = flow.run_local_server(
-                    port=8080,
+                    port=0,  # Use random available port
                     open_browser=True,
                     success_message='Authorization successful! You can close this tab and return to the application.'
                 )

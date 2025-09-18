@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🦈 LeadShark - Predatory Lead Enrichment System
+LeadShark - Predatory Lead Enrichment System
 
 Features:
 - Interactive Google OAuth sign-in with scope verification
@@ -75,7 +75,7 @@ def interactive_sheet_selection(cli: CLIInterface, sheets_service, drive_service
             cli.print_error("Cannot access sheet. Please check permissions and try again.")
             continue
 
-        cli.print_success(f"🦈 LeadShark connected to hunting ground: {metadata['title']}")
+        cli.print_success(f">> LeadShark connected to hunting ground: {metadata['title']}")
 
         # Select worksheet
         sheet_name = cli.select_worksheet(metadata)
@@ -168,7 +168,7 @@ def main():
 
     # Parse command line arguments (for override options)
     parser = argparse.ArgumentParser(
-        description='🦈 LeadShark - Predatory Lead Enrichment System',
+        description='LeadShark - Predatory Lead Enrichment System',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
