@@ -22,7 +22,10 @@
       "Bash(git stash:*)",
       "mcp__filesystem__directory_tree",
       "mcp__filesystem__read_text_file",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(pip install:*)",
+      "Bash(set PYTHONIOENCODING=utf-8)",
+      "Bash(dir:*)"
     ],
     "deny": [],
     "ask": []
