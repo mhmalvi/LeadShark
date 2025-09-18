@@ -19,7 +19,10 @@
       "Bash(grep:*)",
       "Bash(/dev/null)",
       "Bash(git checkout:*)",
-      "Bash(git stash:*)"
+      "Bash(git stash:*)",
+      "mcp__filesystem__directory_tree",
+      "mcp__filesystem__read_text_file",
+      "Bash(rm:*)"
     ],
     "deny": [],
     "ask": []
