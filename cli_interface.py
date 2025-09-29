@@ -64,7 +64,7 @@ class CLIInterface:
         """Display application banner"""
         if self.use_rich:
             banner = Panel.fit(
-                "[bold red]🦈 LeadShark - Predatory Lead Enrichment[/bold red]\n"
+                "[bold red]LeadShark - Predatory Lead Enrichment[/bold red]\n"
                 "[dim]Interactive • Non-Destructive • Real-Time Hunt Progress[/dim]\n\n"
                 "+ [green]Append-only lead enrichment[/green] preserves all original prospect data\n"
                 "* [blue]OAuth2 authentication[/blue] with scope verification\n"
@@ -76,7 +76,7 @@ class CLIInterface:
             self.console.print(banner)
         else:
             print("="*70)
-            print("    🦈 LeadShark - Predatory Lead Enrichment")
+            print("    LeadShark - Predatory Lead Enrichment")
             print("    Interactive • Non-Destructive • Real-Time Hunt Progress")
             print("="*70)
 
