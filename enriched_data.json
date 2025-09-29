@@ -3,7 +3,7 @@
     "eva": {
       "service": "EVA",
       "status": "error",
-      "error": "HTTPSConnectionPool(host='api.eva.pingutil.com', port=443): Max retries exceeded with url: /email?email=rich@scierkalang.com (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x00000198F868C2F0>: Failed to resolve 'api.eva.pingutil.com' ([Errno 11001] getaddrinfo failed)\"))"
+      "error": "HTTPSConnectionPool(host='api.eva.pingutil.com', port=443): Max retries exceeded with url: /email?email=rich@scierkalang.com (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x0000021EEF2602F0>: Failed to resolve 'api.eva.pingutil.com' ([Errno 11001] getaddrinfo failed)\"))"
     }
   },
   "gender_detection": {

@@ -97,12 +97,32 @@ def authenticate_google_sheets(force_consent: bool = False, show_progress: bool 
             try:
                 flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
 
-                # Use local server for better UX
-                creds = flow.run_local_server(
-                    port=8080,
-                    open_browser=True,
-                    success_message='Authorization successful! You can close this tab and return to the application.'
-                )
+                # Use console flow by default to avoid redirect URI issues
+                if show_progress:
+                    print("Using console-based authentication to avoid redirect URI issues...")
+                    print("You will get a URL to visit in your browser, then paste the authorization code.")
+
+                try:
+                    # First try console flow (most reliable)
+                    creds = flow.run_console()
+                    if show_progress:
+                        print("Console authentication successful!")
+                except Exception as console_error:
+                    if show_progress:
+                        print(f"Console flow failed ({console_error}), trying local server...")
+                    # Fallback to local server
+                    try:
+                        creds = flow.run_local_server(
+                            port=8080,  # Use specific port that matches credentials
+                            open_browser=True,
+                            success_message='Authorization successful! You can close this tab and return to the application.'
+                        )
+                    except Exception as server_error:
+                        if show_progress:
+                            print(f"Both authentication methods failed:")
+                            print(f"Console: {console_error}")
+                            print(f"Server: {server_error}")
+                        raise server_error
 
                 if show_progress:
                     print("Google authentication successful!")
