@@ -18,6 +18,10 @@ python-dotenv==1.0.0
 # Rich CLI interface (recommended for best experience)
 rich==13.7.0
 
+# AI/LLM Integration
+anthropic>=0.69.0
+openai>=1.0.0
+
 # Optional: Enhanced features
 lxml==4.9.3
 html5lib==1.1

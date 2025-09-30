@@ -1,0 +1,14 @@
+{
+  "timestamp": 1759226906.241995,
+  "api": "google_search",
+  "cache_key": "little train creative_",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [],
+    "industry_mentions": [
+      "media"
+    ],
+    "search_results_found": true
+  }
+}

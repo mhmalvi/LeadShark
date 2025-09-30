@@ -1,0 +1,14 @@
+{
+  "timestamp": 1759224387.2689328,
+  "api": "google_search",
+  "cache_key": "testcorp_san francisco",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [],
+    "industry_mentions": [
+      "media"
+    ],
+    "search_results_found": true
+  }
+}

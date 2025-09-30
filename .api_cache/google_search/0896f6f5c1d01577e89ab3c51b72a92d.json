@@ -1,0 +1,14 @@
+{
+  "timestamp": 1759226877.289987,
+  "api": "google_search",
+  "cache_key": "tom, dick & harry_",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [],
+    "industry_mentions": [
+      "media"
+    ],
+    "search_results_found": true
+  }
+}

@@ -44,6 +44,13 @@ class CLIInterface:
     """🦈 LeadShark enhanced CLI interface with predatory formatting and interactive lead hunting features"""
 
     def __init__(self):
+        # Force UTF-8 encoding for Windows console
+        if sys.platform == 'win32':
+            try:
+                sys.stdout.reconfigure(encoding='utf-8')
+            except:
+                pass
+
         self.console = Console() if RICH_AVAILABLE else None
         self.use_rich = RICH_AVAILABLE
 
@@ -64,7 +71,7 @@ class CLIInterface:
         """Display application banner"""
         if self.use_rich:
             banner = Panel.fit(
-                "[bold red]🦈 LeadShark - Predatory Lead Enrichment[/bold red]\n"
+                "[bold red]LeadShark - Predatory Lead Enrichment[/bold red]\n"
                 "[dim]Interactive • Non-Destructive • Real-Time Hunt Progress[/dim]\n\n"
                 "+ [green]Append-only lead enrichment[/green] preserves all original prospect data\n"
                 "* [blue]OAuth2 authentication[/blue] with scope verification\n"
@@ -76,7 +83,7 @@ class CLIInterface:
             self.console.print(banner)
         else:
             print("="*70)
-            print("    🦈 LeadShark - Predatory Lead Enrichment")
+            print("    LeadShark - Predatory Lead Enrichment")
             print("    Interactive • Non-Destructive • Real-Time Hunt Progress")
             print("="*70)
 

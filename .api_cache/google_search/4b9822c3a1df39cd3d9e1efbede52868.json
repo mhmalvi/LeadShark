@@ -1,0 +1,15 @@
+{
+  "timestamp": 1759225364.9090796,
+  "api": "google_search",
+  "cache_key": "parkour3 | digital marketing and hubspot agency partner_",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [],
+    "industry_mentions": [
+      "marketing",
+      "media"
+    ],
+    "search_results_found": true
+  }
+}

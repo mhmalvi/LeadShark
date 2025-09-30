@@ -1,0 +1,14 @@
+{
+  "timestamp": 1759226867.7871802,
+  "api": "google_search",
+  "cache_key": "natural trends_",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [],
+    "industry_mentions": [
+      "media"
+    ],
+    "search_results_found": true
+  }
+}

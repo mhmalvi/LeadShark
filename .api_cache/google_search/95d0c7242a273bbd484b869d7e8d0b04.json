@@ -1,0 +1,15 @@
+{
+  "timestamp": 1759225396.958707,
+  "api": "google_search",
+  "cache_key": "drive marketing group inc._",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [],
+    "industry_mentions": [
+      "marketing",
+      "media"
+    ],
+    "search_results_found": true
+  }
+}

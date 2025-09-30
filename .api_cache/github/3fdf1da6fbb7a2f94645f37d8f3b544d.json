@@ -1,0 +1,13 @@
+{
+  "timestamp": 1759226887.5590422,
+  "api": "github",
+  "cache_key": "woosh market research",
+  "response": {
+    "service": "GitHub",
+    "status": "success",
+    "organizations": [],
+    "repositories": [],
+    "total_orgs": 0,
+    "total_repos": 0
+  }
+}

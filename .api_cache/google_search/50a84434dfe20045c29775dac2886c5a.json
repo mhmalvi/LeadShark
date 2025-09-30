@@ -1,0 +1,16 @@
+{
+  "timestamp": 1759225385.869586,
+  "api": "google_search",
+  "cache_key": "cassidy advertising & consulting llc_",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [],
+    "industry_mentions": [
+      "media",
+      "consulting",
+      "advertising"
+    ],
+    "search_results_found": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "timestamp": 1759226864.9527214,
+  "api": "eva_email",
+  "cache_key": "paul@naturaltrends.com",
+  "response": {
+    "service": "EVA",
+    "status": "error",
+    "error": "HTTPSConnectionPool(host='api.eva.pingutil.com', port=443): Max retries exceeded with url: /email?email=paul@naturaltrends.com (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x0000019EE96AFD90>: Failed to resolve 'api.eva.pingutil.com' ([Errno 11001] getaddrinfo failed)\"))"
+  }
+}

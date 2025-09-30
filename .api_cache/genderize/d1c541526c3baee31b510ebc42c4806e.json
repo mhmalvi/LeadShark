@@ -1,0 +1,9 @@
+{
+  "timestamp": 1759224376.1291122,
+  "api": "genderize",
+  "cache_key": "test_john",
+  "response": {
+    "test": "data",
+    "cached": false
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "timestamp": 1759225347.0962589,
+  "api": "google_search",
+  "cache_key": "scierka-lang media solutions_",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [],
+    "industry_mentions": [
+      "media",
+      "solutions"
+    ],
+    "search_results_found": true
+  }
+}

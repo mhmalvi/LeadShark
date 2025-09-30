@@ -1,0 +1,10 @@
+{
+  "timestamp": 1759225396.0057557,
+  "api": "eva_email",
+  "cache_key": "josh@drivemarketinggroup.ca",
+  "response": {
+    "service": "EVA",
+    "status": "error",
+    "error": "HTTPSConnectionPool(host='api.eva.pingutil.com', port=443): Max retries exceeded with url: /email?email=josh@drivemarketinggroup.ca (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x000002E7D79E1A90>: Failed to resolve 'api.eva.pingutil.com' ([Errno 11001] getaddrinfo failed)\"))"
+  }
+}

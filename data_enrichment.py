@@ -231,6 +231,23 @@ class DataEnrichment:
         
         return enrichment_results
 
+# Helper functions for backward compatibility
+def enrich_gender(name):
+    """Helper function for gender enrichment - backward compatible"""
+    enricher = DataEnrichment()
+    first_name = name.split()[0] if ' ' in name else name
+    return enricher.get_gender(first_name)
+
+def enrich_email_verification(email):
+    """Helper function for email verification - backward compatible"""
+    enricher = DataEnrichment()
+    return enricher.verify_email_eva(email)
+
+def enrich_github_search(company_name):
+    """Helper function for GitHub search - backward compatible"""
+    enricher = DataEnrichment()
+    return enricher.search_github(company_name)
+
 # Main execution
 if __name__ == "__main__":
     enricher = DataEnrichment()

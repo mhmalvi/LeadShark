@@ -1,0 +1,15 @@
+{
+  "timestamp": 1759225356.5364752,
+  "api": "google_search",
+  "cache_key": "1107 marketing_",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [],
+    "industry_mentions": [
+      "marketing",
+      "media"
+    ],
+    "search_results_found": true
+  }
+}

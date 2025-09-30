@@ -297,29 +297,50 @@ class NonDestructiveEnricher:
             result.all_urls = list(set(urls))  # Deduplicate
             result.primary_url = urls[0] if urls else ""
 
-            # Scrape primary URL if available
-            if result.primary_url:
-                self.logger.info(f"Scraping {result.primary_url}")
-                scraped = self.scraper.scrape_url(result.primary_url)
+            # Scrape ALL URLs found (not just primary)
+            if result.all_urls:
+                all_content = []
+                all_emails = []
+                all_phones = []
+                all_social = []
+                successful_scrapes = 0
 
-                if scraped and scraped.get('status') == 'success':
+                for url in result.all_urls[:5]:  # Limit to first 5 URLs to avoid overload
+                    self.logger.info(f"Scraping {url}")
+                    scraped = self.scraper.scrape_url(url)
+
+                    if scraped and scraped.get('status') == 'success':
+                        successful_scrapes += 1
+
+                        # Use first successful scrape for title/meta
+                        if not result.page_title:
+                            result.page_title = self._truncate(scraped.get('title', ''), MAX_FIELD_LENGTH)
+                        if not result.meta_description:
+                            result.meta_description = self._truncate(scraped.get('meta_description', ''), MAX_FIELD_LENGTH)
+
+                        # Collect content from all URLs
+                        content = scraped.get('content', '')
+                        all_content.append(content)
+
+                        # Aggregate contacts
+                        all_emails.extend(scraped.get('emails', []))
+                        all_phones.extend(scraped.get('phones', []))
+                        all_social.extend(scraped.get('social_links', []))
+
+                        result.source_count += 1
+
+                # Combine data from all scraped URLs
+                if successful_scrapes > 0:
                     result.scrape_status = "OK"
-                    result.page_title = self._truncate(scraped.get('title', ''), MAX_FIELD_LENGTH)
-                    result.meta_description = self._truncate(scraped.get('meta_description', ''), MAX_FIELD_LENGTH)
+                    combined_content = ' '.join(all_content)
+                    result.about_summary = self._truncate(self._extract_summary(combined_content), MAX_FIELD_LENGTH)
 
-                    # Extract content summary
-                    content = scraped.get('content', '')
-                    result.about_summary = self._truncate(self._extract_summary(content), MAX_FIELD_LENGTH)
-
-                    # Extract contacts
-                    emails = scraped.get('emails', [])
-                    phones = scraped.get('phones', [])
-                    result.contacts = {'emails': emails[:10], 'phones': phones[:10]}
-
-                    # Social profiles
-                    result.social_profiles = scraped.get('social_links', [])[:20]
-
-                    result.source_count += 1
+                    # Deduplicate and limit contacts
+                    result.contacts = {
+                        'emails': list(set(all_emails))[:10],
+                        'phones': list(set(all_phones))[:10]
+                    }
+                    result.social_profiles = list(set(all_social))[:20]
                 else:
                     result.scrape_status = "PARTIAL"
 

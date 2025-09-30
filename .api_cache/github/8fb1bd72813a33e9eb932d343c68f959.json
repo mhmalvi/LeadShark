@@ -1,0 +1,13 @@
+{
+  "timestamp": 1759225385.7268715,
+  "api": "github",
+  "cache_key": "cassidy advertising & consulting llc",
+  "response": {
+    "service": "GitHub",
+    "status": "success",
+    "organizations": [],
+    "repositories": [],
+    "total_orgs": 0,
+    "total_repos": 0
+  }
+}

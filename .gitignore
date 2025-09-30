@@ -1,20 +1,39 @@
-# Sensitive files
+# Sensitive files - NEVER COMMIT THESE!
 credentials.json
 token.json
+*_credentials.json
+*_token.json
+
+# API Keys and secrets
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+secrets.json
+
+# AI/LLM cache and logs
+.anthropic_cache/
+anthropic_usage.json
+ai_enrichment_stats.json
 
 # Python cache
 __pycache__/
 *.pyc
 *.pyo
+*.pyd
+.Python
 
 # Results and logs
 enrichment_results_*.json
 *.log
+logs/
 
 # Environment
-.env
 .venv
 venv/
+env/
+ENV/
 
 # IDE
 .vscode/
