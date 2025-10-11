@@ -1,0 +1,14 @@
+{
+  "timestamp": 1759335537.2345264,
+  "api": "google_search",
+  "cache_key": "ahead creative_",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [],
+    "industry_mentions": [
+      "media"
+    ],
+    "search_results_found": true
+  }
+}

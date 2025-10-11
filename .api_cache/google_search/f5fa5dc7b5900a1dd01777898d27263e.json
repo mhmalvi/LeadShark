@@ -1,0 +1,25 @@
+{
+  "timestamp": 1759336522.842596,
+  "api": "google_search",
+  "cache_key": "that digital stuff_",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [
+      "2520",
+      "20",
+      "22",
+      "2",
+      "2"
+    ],
+    "industry_mentions": [
+      "technology",
+      "media",
+      "services",
+      "marketing",
+      "advertising",
+      "software"
+    ],
+    "search_results_found": true
+  }
+}

@@ -45,7 +45,16 @@
       "Bash(fi)",
       "Bash(done)",
       "Bash(then mv \"$file\" \"archive/legacy_enrichers/$file\")",
-      "Bash(timeout 10 python:*)"
+      "Bash(timeout 10 python:*)",
+      "mcp__filesystem__list_directory_with_sizes",
+      "Bash(del /F /Q \"AI_INTEGRATION_GUIDE.md\" \"codebase_analysis_report.md\" \"data-up-29-9-25.md\" \"DOCUMENTATION_VALIDATION.md\" \"enhanced_final_report.md\" \"enrichment_report_20250913_200703.md\" \"final_scraped_content.md\" \"GOOGLE_OAUTH_FIX.md\" \"implementation_plan.md\" \"INTERACTIVE_FLOW_README.md\" \"mcp-config.md\" \"NON_DESTRUCTIVE_README.md\" \"READY.txt\")",
+      "Bash(do rm -f \"$file\")",
+      "Bash(export PYTHONIOENCODING=utf-8)",
+      "Bash(set LINKEDIN_EMAIL=aalvi.hm@gmail.com)",
+      "Bash(set LINKEDIN_PASSWORD=tools895uhosszzy13w)",
+      "Bash(printf \"1\\n1iop2lVOkA1LsZgrK9tmtCPx_6Mcgr0wkuElWa0wqxeU\\n1\\ny\\n1\\n\")",
+      "Bash(printf \"1\\n1iop2lVOkA1LsZgrK9tmtCPx_6Mcgr0wkuElWa0wqxeU\\n1\\ny\\n1\\ndefault\\n\")",
+      "Bash(timeout:*)"
     ],
     "deny": [],
     "ask": []

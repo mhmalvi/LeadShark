@@ -1,0 +1,12 @@
+{
+  "timestamp": 1759335729.8849943,
+  "api": "genderize",
+  "cache_key": "damien",
+  "response": {
+    "service": "Genderize",
+    "status": "success",
+    "gender": "male",
+    "probability": 1.0,
+    "count": 157372
+  }
+}

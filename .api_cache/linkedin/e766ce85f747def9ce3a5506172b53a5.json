@@ -1,0 +1,24 @@
+{
+  "timestamp": 1759711606.9644365,
+  "api": "linkedin",
+  "cache_key": "http://www.linkedin.com/in/mariangela-virtue-49099830",
+  "response": {
+    "url": "http://www.linkedin.com/in/mariangela-virtue-49099830",
+    "scraped_at": "2025-10-06T06:46:45.762758",
+    "name": "",
+    "headline": "",
+    "location": "",
+    "current_company": "",
+    "current_title": "",
+    "experience": [],
+    "skills": [],
+    "connections": "",
+    "activity": {
+      "recent_posts": [],
+      "engagement_level": "Unknown"
+    },
+    "verified": false,
+    "status": "blocked",
+    "error": "LinkedIn blocked request (rate limit or bot detection)"
+  }
+}

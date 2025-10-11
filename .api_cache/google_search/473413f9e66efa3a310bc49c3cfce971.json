@@ -1,0 +1,14 @@
+{
+  "timestamp": 1759335638.0546863,
+  "api": "google_search",
+  "cache_key": "dmc group aust_",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [],
+    "industry_mentions": [
+      "media"
+    ],
+    "search_results_found": true
+  }
+}

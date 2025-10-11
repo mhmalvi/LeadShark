@@ -26,6 +26,7 @@ from data_enrichment import DataEnrichment
 from lead_scoring_engine import LeadScoringEngine
 from context_generator import ContextGenerator
 from api_rate_limiter import APIRateLimiter
+from linkedin_scraper import LinkedInScraper
 
 
 class EnhancedEnrichmentEngine:
@@ -45,8 +46,18 @@ class EnhancedEnrichmentEngine:
         self.scorer = LeadScoringEngine()
         self.context_gen = ContextGenerator()
         self.rate_limiter = APIRateLimiter()
+        self.linkedin_scraper = LinkedInScraper()
 
         self.logger = logging.getLogger(__name__)
+
+        # Try to authenticate LinkedIn scraper
+        try:
+            import os
+            if os.environ.get('LINKEDIN_EMAIL') and os.environ.get('LINKEDIN_PASSWORD'):
+                self.logger.info("LinkedIn credentials found, authenticating...")
+                self.linkedin_scraper.authenticate()
+        except Exception as e:
+            self.logger.warning(f"LinkedIn authentication skipped: {e}")
 
     def enrich_row(
         self,
@@ -228,14 +239,46 @@ class EnhancedEnrichmentEngine:
                     'industry_mentions': google_result.get('industry_mentions', []) if google_result.get('status') == 'success' else []
                 }
 
-        # 5. LinkedIn verification (from scraped data, not separate API)
+        # 5. LinkedIn profile scraping (with authentication)
         linkedin_url = row_data.get('linkedin_url', row_data.get('LinkedIn URL', ''))
         if linkedin_url:
-            api_results['linkedin'] = {
-                'data': {'url': linkedin_url},
-                'source': 'Web scraping (platform-optimized)',
-                'verified': True  # Will be updated from scraping results
-            }
+            linkedin_result = self.rate_limiter.make_cached_request(
+                'linkedin',
+                linkedin_url.lower(),
+                self.linkedin_scraper.scrape_profile,
+                linkedin_url,
+                use_cache=True
+            )
+
+            if linkedin_result and linkedin_result.get('status') == 'success':
+                api_results['linkedin'] = {
+                    'data': {
+                        'url': linkedin_url,
+                        'name': linkedin_result.get('name', ''),
+                        'headline': linkedin_result.get('headline', ''),
+                        'current_company': linkedin_result.get('current_company', ''),
+                        'current_title': linkedin_result.get('current_title', ''),
+                        'location': linkedin_result.get('location', ''),
+                        'connections': linkedin_result.get('connections', ''),
+                        'experience_count': len(linkedin_result.get('experience', [])),
+                        'skills': linkedin_result.get('skills', [])[:5],  # Top 5 skills
+                        'verified': linkedin_result.get('verified', False)
+                    },
+                    'source': 'LinkedIn API (authenticated scraping)',
+                    'verified': linkedin_result.get('verified', False),
+                    'status': linkedin_result.get('status', 'unknown')
+                }
+                self.logger.info(f"✅ LinkedIn profile scraped: {linkedin_result.get('name', 'Unknown')}")
+            else:
+                # Fallback to basic verification
+                api_results['linkedin'] = {
+                    'data': {'url': linkedin_url},
+                    'source': 'Basic URL verification',
+                    'verified': False,
+                    'status': linkedin_result.get('status', 'failed') if linkedin_result else 'failed',
+                    'error': linkedin_result.get('error', 'Unknown error') if linkedin_result else 'Scraping failed'
+                }
+                self.logger.warning(f"⚠️ LinkedIn scraping failed: {api_results['linkedin']['error']}")
 
         return api_results
 

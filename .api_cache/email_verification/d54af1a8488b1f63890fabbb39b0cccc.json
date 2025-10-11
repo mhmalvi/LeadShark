@@ -1,0 +1,10 @@
+{
+  "timestamp": 1759713987.090504,
+  "cache_type": "email_verification",
+  "key": "john@example.com",
+  "data": {
+    "deliverable": true,
+    "confidence": 95,
+    "source": "EVA"
+  }
+}

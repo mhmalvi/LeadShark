@@ -1,0 +1,24 @@
+{
+  "timestamp": 1759708913.1067631,
+  "api": "linkedin",
+  "cache_key": "http://www.linkedin.com/in/nrasmunsen",
+  "response": {
+    "url": "http://www.linkedin.com/in/nrasmunsen",
+    "scraped_at": "2025-10-06T06:01:51.693841",
+    "name": "",
+    "headline": "",
+    "location": "",
+    "current_company": "",
+    "current_title": "",
+    "experience": [],
+    "skills": [],
+    "connections": "",
+    "activity": {
+      "recent_posts": [],
+      "engagement_level": "Unknown"
+    },
+    "verified": false,
+    "status": "blocked",
+    "error": "LinkedIn blocked request (rate limit or bot detection)"
+  }
+}

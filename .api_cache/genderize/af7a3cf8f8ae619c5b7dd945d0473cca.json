@@ -1,0 +1,12 @@
+{
+  "timestamp": 1759336564.5367212,
+  "api": "genderize",
+  "cache_key": "manjit",
+  "response": {
+    "service": "Genderize",
+    "status": "success",
+    "gender": "female",
+    "probability": 0.66,
+    "count": 11842
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "timestamp": 1759335562.3662865,
+  "api": "google_search",
+  "cache_key": "panormus agency_",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [],
+    "industry_mentions": [
+      "media"
+    ],
+    "search_results_found": true
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "timestamp": 1759335667.0114307,
+  "api": "google_search",
+  "cache_key": "mariart design studio_",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [],
+    "industry_mentions": [
+      "media"
+    ],
+    "search_results_found": true
+  }
+}

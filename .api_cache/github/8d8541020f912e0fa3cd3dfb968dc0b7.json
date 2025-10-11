@@ -1,0 +1,36 @@
+{
+  "timestamp": 1759711605.7527375,
+  "api": "github",
+  "cache_key": "mariart design studio",
+  "response": {
+    "service": "GitHub",
+    "status": "success",
+    "organizations": [
+      {
+        "login": "mariartau",
+        "id": 131430715,
+        "node_id": "O_kgDOB9V5Ow",
+        "avatar_url": "https://avatars.githubusercontent.com/u/131430715?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/mariartau",
+        "html_url": "https://github.com/mariartau",
+        "followers_url": "https://api.github.com/users/mariartau/followers",
+        "following_url": "https://api.github.com/users/mariartau/following{/other_user}",
+        "gists_url": "https://api.github.com/users/mariartau/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/mariartau/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/mariartau/subscriptions",
+        "organizations_url": "https://api.github.com/users/mariartau/orgs",
+        "repos_url": "https://api.github.com/users/mariartau/repos",
+        "events_url": "https://api.github.com/users/mariartau/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/mariartau/received_events",
+        "type": "Organization",
+        "user_view_type": "public",
+        "site_admin": false,
+        "score": 1.0
+      }
+    ],
+    "repositories": [],
+    "total_orgs": 1,
+    "total_repos": 0
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "timestamp": 1759336544.3511713,
+  "api": "google_search",
+  "cache_key": "the idea shed_",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [
+      [
+        "11",
+        "50"
+      ],
+      [
+        "11",
+        "50"
+      ],
+      "2520",
+      "20",
+      "22"
+    ],
+    "industry_mentions": [
+      "services",
+      "marketing",
+      "advertising",
+      "media"
+    ],
+    "search_results_found": true
+  }
+}

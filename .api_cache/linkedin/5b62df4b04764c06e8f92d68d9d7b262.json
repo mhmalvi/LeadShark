@@ -1,0 +1,24 @@
+{
+  "timestamp": 1759710096.5146644,
+  "api": "linkedin",
+  "cache_key": "http://www.linkedin.com/in/bronnylane",
+  "response": {
+    "url": "http://www.linkedin.com/in/bronnylane",
+    "scraped_at": "2025-10-06T06:21:35.208191",
+    "name": "",
+    "headline": "",
+    "location": "",
+    "current_company": "",
+    "current_title": "",
+    "experience": [],
+    "skills": [],
+    "connections": "",
+    "activity": {
+      "recent_posts": [],
+      "engagement_level": "Unknown"
+    },
+    "verified": false,
+    "status": "blocked",
+    "error": "LinkedIn blocked request (rate limit or bot detection)"
+  }
+}

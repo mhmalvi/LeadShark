@@ -1,0 +1,14 @@
+{
+  "timestamp": 1759335793.039289,
+  "api": "google_search",
+  "cache_key": "here for good_",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [],
+    "industry_mentions": [
+      "media"
+    ],
+    "search_results_found": true
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "timestamp": 1759335748.1295686,
+  "api": "google_search",
+  "cache_key": "underscore_",
+  "response": {
+    "service": "Google Search",
+    "status": "success",
+    "employee_mentions": [],
+    "industry_mentions": [
+      "media"
+    ],
+    "search_results_found": true
+  }
+}

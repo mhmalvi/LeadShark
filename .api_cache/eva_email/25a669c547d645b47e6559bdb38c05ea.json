@@ -1,10 +1,10 @@
 {
-  "timestamp": 1759226905.3704102,
+  "timestamp": 1759708174.700974,
   "api": "eva_email",
   "cache_key": "bronwen@littletrain.com.au",
   "response": {
     "service": "EVA",
     "status": "error",
-    "error": "HTTPSConnectionPool(host='api.eva.pingutil.com', port=443): Max retries exceeded with url: /email?email=bronwen@littletrain.com.au (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x0000019EE96AEE90>: Failed to resolve 'api.eva.pingutil.com' ([Errno 11001] getaddrinfo failed)\"))"
+    "error": "HTTPSConnectionPool(host='api.eva.pingutil.com', port=443): Max retries exceeded with url: /email?email=bronwen@littletrain.com.au (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x0000019500341A90>: Failed to resolve 'api.eva.pingutil.com' ([Errno 11001] getaddrinfo failed)\"))"
   }
 }

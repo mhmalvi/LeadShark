@@ -1,0 +1,10 @@
+{
+  "timestamp": 1759711559.0593638,
+  "api": "eva_email",
+  "cache_key": "craig.rodda@dmcg.com.au",
+  "response": {
+    "service": "EVA",
+    "status": "error",
+    "error": "HTTPSConnectionPool(host='api.eva.pingutil.com', port=443): Max retries exceeded with url: /email?email=craig.rodda@dmcg.com.au (Caused by NameResolutionError(\"<urllib3.connection.HTTPSConnection object at 0x000001530F506E90>: Failed to resolve 'api.eva.pingutil.com' ([Errno 11001] getaddrinfo failed)\"))"
+  }
+}

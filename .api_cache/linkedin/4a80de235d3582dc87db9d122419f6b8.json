@@ -1,0 +1,24 @@
+{
+  "timestamp": 1759711700.4109643,
+  "api": "linkedin",
+  "cache_key": "http://www.linkedin.com/in/damienrossi",
+  "response": {
+    "url": "http://www.linkedin.com/in/damienrossi",
+    "scraped_at": "2025-10-06T06:48:18.840669",
+    "name": "Damien Rossi",
+    "headline": "",
+    "location": "",
+    "current_company": "",
+    "current_title": "",
+    "experience": [],
+    "skills": [],
+    "connections": "",
+    "activity": {
+      "recent_posts": [],
+      "engagement_level": "Unknown"
+    },
+    "verified": true,
+    "status": "success",
+    "error": null
+  }
+}

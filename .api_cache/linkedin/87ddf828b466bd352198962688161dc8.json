@@ -1,0 +1,24 @@
+{
+  "timestamp": 1759711561.2942634,
+  "api": "linkedin",
+  "cache_key": "http://www.linkedin.com/in/craig-rodda-9a51642a",
+  "response": {
+    "url": "http://www.linkedin.com/in/craig-rodda-9a51642a",
+    "scraped_at": "2025-10-06T06:45:59.937428",
+    "name": "Craig Rodda",
+    "headline": "",
+    "location": "",
+    "current_company": "",
+    "current_title": "",
+    "experience": [],
+    "skills": [],
+    "connections": "",
+    "activity": {
+      "recent_posts": [],
+      "engagement_level": "Unknown"
+    },
+    "verified": true,
+    "status": "success",
+    "error": null
+  }
+}

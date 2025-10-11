@@ -25,17 +25,18 @@ class LeadScoringEngine:
             'role': 30,
             'company_fit': 25,
             'engagement': 15,
-            'contactability': 15,
+            'contactability': 10,  # Reduced from 15% to 10%
             'tech_fit': 10,
-            'recency': 5
+            'recency': 10  # Increased from 5% to 10% to compensate
         }
 
-        # Decision-making titles
+        # Decision-making titles (UPDATED: added owner, partner, managing director, md)
         self.executive_titles = [
             'ceo', 'chief executive', 'founder', 'co-founder', 'president',
             'cto', 'chief technology', 'cio', 'chief information',
             'cfo', 'chief financial', 'cmo', 'chief marketing',
-            'vp', 'vice president', 'head of', 'director', 'managing director'
+            'vp', 'vice president', 'head of', 'director', 'managing director', 'md',
+            'owner', 'partner'  # Added for small business detection
         ]
 
         # Technical indicators
@@ -64,6 +65,10 @@ class LeadScoringEngine:
         for factor, weight in self.weights.items():
             total_score += scores[factor] * weight
 
+        # NEW: Small business owner boost (+20 points)
+        # If company size < 20 employees AND role is owner/founder/CEO
+        total_score = self._apply_small_business_boost(enrichment_data, total_score)
+
         # Round to integer
         total_score = int(round(total_score))
 
@@ -75,6 +80,36 @@ class LeadScoringEngine:
 
         return total_score, tag, breakdown
 
+    def _apply_small_business_boost(self, data: Dict, current_score: float) -> float:
+        """
+        Apply +20 point boost for owner/founder roles in small businesses (<20 employees)
+        Small business owners are typically sole decision makers
+        """
+        # Check if role is owner/founder/CEO
+        title = self._get_nested_value(data, ['scraped_content', 'linkedin', 'extracted', 'title'], '')
+        headline = self._get_nested_value(data, ['scraped_content', 'linkedin', 'extracted', 'key_fields', 'headline'], '')
+        combined_title = f"{title} {headline}".lower()
+
+        is_owner = any(keyword in combined_title for keyword in ['owner', 'founder', 'ceo', 'partner'])
+
+        # Check for small company indicators
+        company_info = self._get_nested_value(data, ['api_results', 'google_search', 'company_info'], '').lower()
+
+        # Look for employee count indicators
+        is_small_company = False
+        small_indicators = ['1-10 employees', '11-20 employees', 'small business', 'boutique', 'solo', 'independent']
+
+        for indicator in small_indicators:
+            if indicator in company_info:
+                is_small_company = True
+                break
+
+        # Apply boost if both conditions met
+        if is_owner and is_small_company:
+            return min(100, current_score + 20)  # Add 20 points, cap at 100
+
+        return current_score
+
     def _score_role(self, data: Dict) -> float:
         """Score based on role/decision power (0.0-1.0)"""
         score = 0.0
@@ -85,15 +120,15 @@ class LeadScoringEngine:
 
         combined_title = f"{title} {headline}".lower()
 
-        # Executive/Founder level = 1.0
-        if any(exec_title in combined_title for exec_title in ['ceo', 'founder', 'co-founder', 'chief executive', 'president']):
+        # Owner/Founder/CEO level = 1.0 (UPDATED: added owner, partner)
+        if any(exec_title in combined_title for exec_title in ['ceo', 'founder', 'co-founder', 'chief executive', 'president', 'owner', 'partner']):
             score = 1.0
         # C-level = 0.9
         elif any(c_level in combined_title for c_level in ['cto', 'cfo', 'cmo', 'cio', 'chief']):
             score = 0.9
-        # VP/Director = 0.7
-        elif any(title_word in combined_title for title_word in ['vp', 'vice president', 'director', 'head of']):
-            score = 0.7
+        # VP/Director/MD = 0.8 (UPDATED: added managing director, increased from 0.7)
+        elif any(title_word in combined_title for title_word in ['vp', 'vice president', 'director', 'head of', 'managing director', 'md']):
+            score = 0.8
         # Manager = 0.5
         elif any(title_word in combined_title for title_word in ['manager', 'lead', 'senior']):
             score = 0.5
@@ -172,6 +207,11 @@ class LeadScoringEngine:
         email_status = self._get_nested_value(data, ['api_results', 'email_verification', 'deliverable'], False)
         if email_status:
             score += 0.6
+        else:
+            # Check if email pattern was generated (NEW: +5 points instead of 0)
+            email_variants = self._get_nested_value(data, ['email_enrichment', 'email_variants'], [])
+            if email_variants:
+                score += 0.3  # Give partial credit for generated email patterns
 
         # Phone available
         phones = self._get_nested_value(data, ['scraped_content', 'website', 'extracted', 'contacts', 'phones'], [])
