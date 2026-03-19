@@ -22,4 +22,6 @@ venv/
 
 # OS
 .DS_Store
-Thumbs.db
+Thumbs.db.env.*
+serviceAccountKey.json
+.claude/
