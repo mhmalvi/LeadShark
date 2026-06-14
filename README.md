@@ -1,3 +1,6 @@
+<!-- repo-card -->
+![LeadShark](docs/assets/social-card.png)
+
 # LeadShark 🦈
 
 🚀 **Predatory efficiency in lead enrichment - Automated lead intelligence system with web scraping and API enrichment**
